@@ -1,3 +1,9 @@
+import random
+import prime
+
+PRIME_LENGTH = 32
+RANDOM_DIGIT_LENGTH = 10
+
 # 두 수 a, b의 최대공약수를 구하는 함수
 def gcd(a: int, b: int):
     while b != 0:
@@ -35,3 +41,47 @@ def decrypt(private_key, encrypted_text):
     decrypted = [(ord(char) ** d) % n for char in encrypted_text]
     output = [chr(char) for char in decrypted]
     return ''.join(output)
+
+def creatKey(PATH):
+    # 키 생성
+    p, q = prime.randomChoice()
+    n = p * q
+    tot = (p - 1) * (q - 1)
+    e = getPublicKey(tot)
+    d = getPrivateKey(e, tot)
+    key_list = [e, d, n]
+
+    # 랜덤한 10자리 숫장와 함께 저장
+    key_file = open(PATH + '/privateKey.txt', 'w', encoding='utf-8')
+    key_file.write(randomDigit()+str(d)+"\n"+randomDigit()+str(n))
+    key_file.close()
+
+    key_file = open(PATH + '/publicKey.txt', 'w', encoding='utf-8')
+    key_file.write(randomDigit()+str(e)+"\n"+randomDigit()+str(n))
+    key_file.close()
+
+def loadPrivateKey(PATH):
+    # 개인키 로드
+    try:
+        key_file = open(PATH+'/privateKey.txt', 'r', encoding='utf-8')
+        key_text = key_file.readlines()
+        private_key = (int(key_text[0][RANDOM_DIGIT_LENGTH:-1]), int(key_text[1][RANDOM_DIGIT_LENGTH:]))
+        return private_key
+    except:
+        # 생성된 키가 없음
+        return 1
+def loadPublicKey(PATH):
+    # 키 로드
+    try:
+        key_file = open(PATH+'/publicKey.txt', 'r', encoding='utf-8')
+        key_text = key_file.readlines()
+        public_key = (int(key_text[0][RANDOM_DIGIT_LENGTH:-1]), int(key_text[1][RANDOM_DIGIT_LENGTH:]))
+        return public_key
+    except: return 1
+
+def randomDigit():
+    num = ''
+    pool = '0123456789'
+    for i in range(RANDOM_DIGIT_LENGTH):
+        num += random.choice(pool)
+    return num
