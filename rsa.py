@@ -1,7 +1,6 @@
 import random
 import prime
 
-PRIME_LENGTH = 32
 RANDOM_DIGIT_LENGTH = 10
 
 # 두 수 a, b의 최대공약수를 구하는 함수
@@ -66,6 +65,7 @@ def loadPrivateKey(PATH):
         key_file = open(PATH+'/privateKey.txt', 'r', encoding='utf-8')
         key_text = key_file.readlines()
         private_key = (int(key_text[0][RANDOM_DIGIT_LENGTH:-1]), int(key_text[1][RANDOM_DIGIT_LENGTH:]))
+        key_file.close()
         return private_key
     except:
         # 생성된 키가 없음
@@ -76,6 +76,7 @@ def loadPublicKey(PATH):
         key_file = open(PATH+'/publicKey.txt', 'r', encoding='utf-8')
         key_text = key_file.readlines()
         public_key = (int(key_text[0][RANDOM_DIGIT_LENGTH:-1]), int(key_text[1][RANDOM_DIGIT_LENGTH:]))
+        key_file.close()
         return public_key
     except: return 1
 

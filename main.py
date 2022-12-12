@@ -10,13 +10,16 @@ ARGV1 = ('newkey')
 ARGV2 = ('obf, deobf')
 
 if __name__ == '__main__':
+    print("Hello, SoftSec!")
     while True:
         # 사용자 입력
         argv = list(map(str, (sys.stdin.readline().strip()).split(" ")))
 
         # 명령어 에러 체크
         COMMAND = argv[0]
-        if COMMAND == "exit": break
+        if COMMAND == "exit":
+            print("Bye!")
+            break
         elif COMMAND not in COMMAND_GROUP:
             print("Command Error")
             continue
